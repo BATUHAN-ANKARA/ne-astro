@@ -28,11 +28,11 @@ exports.createZodiac = async (req, res) => {
 exports.getDaily = async (req, res) => {
   try {
     const json = await zodiacService.zodiac.getDaily(req);
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
       ...baseResponse,
       data: json,
       success: true,
-      code: StatusCodes.CREATED,
+      code: StatusCodes.OK,
       timestamp: new Date(),
       message: "Burç yorum",
     });
@@ -51,6 +51,75 @@ exports.getDaily = async (req, res) => {
 exports.getWeekly = async (req, res) => {
   try {
     const json = await zodiacService.zodiac.getWeekly(req);
+    res.status(StatusCodes.OK).json({
+      ...baseResponse,
+      data: json,
+      success: true,
+      code: StatusCodes.OK,
+      timestamp: new Date(),
+      message: "Burç yorum",
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      ...baseResponse,
+      success: false,
+      error: true,
+      timestamp: new Date(),
+      message: error.message,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+exports.getMonthly = async (req, res) => {
+  try {
+    const json = await zodiacService.zodiac.getMonthly(req);
+    res.status(StatusCodes.OK).json({
+      ...baseResponse,
+      data: json,
+      success: true,
+      code: StatusCodes.OK,
+      timestamp: new Date(),
+      message: "Burç yorum",
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      ...baseResponse,
+      success: false,
+      error: true,
+      timestamp: new Date(),
+      message: error.message,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+exports.getById = async (req, res) => {
+  try {
+    const json = await zodiacService.zodiac.getById(req);
+    res.status(StatusCodes.OK).json({
+      ...baseResponse,
+      data: json,
+      success: true,
+      code: StatusCodes.OK,
+      timestamp: new Date(),
+      message: "Burç yorum",
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      ...baseResponse,
+      success: false,
+      error: true,
+      timestamp: new Date(),
+      message: error.message,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+exports.updateZodiacById = async (req, res) => {
+  try {
+    const json = await zodiacService.zodiac.updateZodiacById(req);
     res.status(StatusCodes.CREATED).json({
       ...baseResponse,
       data: json,
@@ -71,9 +140,9 @@ exports.getWeekly = async (req, res) => {
   }
 };
 
-exports.getMonthly = async (req, res) => {
+exports.getZodiacByTitle = async (req, res) => {
   try {
-    const json = await zodiacService.zodiac.getMonthly(req);
+    const json = await zodiacService.zodiac.getZodiacByTitle(req);
     res.status(StatusCodes.CREATED).json({
       ...baseResponse,
       data: json,

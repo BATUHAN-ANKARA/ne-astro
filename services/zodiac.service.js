@@ -63,3 +63,50 @@ exports.getMonthly = async (req) => {
     throw new Error(error);
   }
 };
+
+exports.getById = async (req) => {
+  const { id } = req.params;
+  try {
+    const json = await zodiacDal.zodiac.findById(id);
+    if (!json) {
+      throw new Error("Burç bulunamadı");
+    } else {
+      return json;
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.getZodiacByTitle = async (req) => {
+  const { title } = req.params;
+  try {
+    const json = await zodiacDal.zodiac.findOne({ title: title });
+    if (!json) {
+      throw new Error("Burç bulunamadı");
+    } else {
+      return json;
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.updateZodiacById = async (req) => {
+  const { id } = req.params;
+  const { daily, weekly, monthly } = req.body;
+  try {
+    const json = await zodiacDal.zodiac.updateById(id, {
+      daily,
+      weekly,
+      monthly,
+    });
+    if (!json) {
+      throw new Error("Burç bulunamadı");
+    } else {
+      return json;
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};

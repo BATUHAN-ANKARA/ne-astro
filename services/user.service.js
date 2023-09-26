@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const userDal = require("../dal/index");
 const utils = require("../utils/index");
+const fileService = require("./file.service");
 
 exports.createUser = async (req) => {
   try {
@@ -35,12 +36,19 @@ exports.login = async (req) => {
   const { email, password } = req.body;
   try {
     const _password = utils.helper.hashToPassword(password);
-    const json = await userDal.user.findOne({ email: email, password: _password });
-    console.log(json);
+    const json = await userDal.user.findOne({
+      email: email,
+      password: _password,
+    });
     if (!json) {
       throw new Error("Şifre veya mail adresi yanlış");
     } else {
-      return json;
+      const token = utils.helper.createToken(
+        json._id,
+        json.name + "" + json.surname,
+        json.email
+      );
+      return { json, token };
     }
   } catch (error) {
     throw new Error(error);
@@ -97,6 +105,37 @@ exports.updatePassword = async (req) => {
     } else {
       return json;
     }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.updateProfilePhoto = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const str = await fileService.uploadImage(req, res);
+    const json = await userDal.user.updateById(id, { profilePhoto: str });
+    return json;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.updateAlbum = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const str = await fileService.uploadImageMultiple(req, res);
+    const json = await userDal.user.updateById(id, { album: str });
+    return json;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.getAllUsers = async (req) => {
+  try {
+    const json = await userDal.user.find();
+    return json;
   } catch (error) {
     throw new Error(error);
   }

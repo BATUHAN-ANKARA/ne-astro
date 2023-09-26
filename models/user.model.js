@@ -36,6 +36,12 @@ const userSchema = new Schema(
       type: Schema.Types.String,
       required: false,
     },
+    album: [
+      {
+        type: Schema.Types.String,
+        required: false,
+      },
+    ],
   },
   {
     minimize: true,
