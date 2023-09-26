@@ -23,6 +23,10 @@ app.use(
   `${process.env.APP_PREFIX}${consts.router.ZODIAC}`,
   router.zodiacRouter
 );
+app.use(
+  `${process.env.APP_PREFIX}${consts.router.COFFEE}`,
+  router.coffeeRouter
+);
 
 db.mongooseConnection.connectMongoDB().then(() => {
   app.listen(PORT, () => {
