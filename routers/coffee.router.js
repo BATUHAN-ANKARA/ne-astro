@@ -2,7 +2,7 @@ const express = require("express");
 const controller = require("../controllers/index");
 const router = express.Router();
 
-router.post("/uploadCoffee/:id", controller.coffeeController.uploadCoffee);
+router.post("/uploadCoffee/:userId", controller.coffeeController.uploadCoffee);
 router.put("/updateCoffeeById/:id", controller.coffeeController.updateCoffeeById);
 router.get("/getCanceledCoffee/:userId", controller.coffeeController.getCanceledCoffee);
 router.get("/getCoffeeById/:id", controller.coffeeController.getCoffeeById);

@@ -4,11 +4,11 @@ const coffeeDal = require("../dal/index");
 
 exports.uploadCoffee = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.params;
     const arr = await fileService.uploadImageMultiple(req, res);
     const coffee = new Coffee({
       uri: arr,
-      user: id,
+      user: userId,
     });
     const json = await coffeeDal.coffee.create(coffee);
     return json;

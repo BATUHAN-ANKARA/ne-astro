@@ -47,7 +47,7 @@ const createToken = (userId, fullName, email) => {
       email,
     },
     process.env.SECRETKEY,
-    { issuer: "loaclhost", expiresIn: process.env.EXPIRESIN }
+    { issuer: "localhost", expiresIn: process.env.EXPIRESIN }
   );
   return token;
 };
