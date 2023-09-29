@@ -83,3 +83,12 @@ exports.getContinueCoffee = async (req) => {
     throw new Error(error);
   }
 };
+
+exports.listAll = async (req) => {
+  try {
+    const json = await coffeeDal.coffee.find();
+    return json;
+  } catch (error) {
+    throw new Error(error);
+  }
+};

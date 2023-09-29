@@ -162,3 +162,26 @@ exports.updateCoffeeById = async (req, res) => {
     });
   }
 };
+
+exports.listAll = async (req, res) => {
+  try {
+    const json = await coffeeService.coffee.listAll(req);
+    res.status(StatusCodes.OK).json({
+      ...baseResponse,
+      data: json,
+      success: true,
+      code: StatusCodes.OK,
+      timestamp: new Date(),
+      message: "",
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      ...baseResponse,
+      success: false,
+      error: true,
+      timestamp: new Date(),
+      message: error.message,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
