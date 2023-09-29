@@ -120,11 +120,11 @@ exports.getById = async (req, res) => {
 exports.updateZodiacById = async (req, res) => {
   try {
     const json = await zodiacService.zodiac.updateZodiacById(req);
-    res.status(StatusCodes.CREATED).json({
+    res.status(StatusCodes.OK).json({
       ...baseResponse,
       data: json,
       success: true,
-      code: StatusCodes.CREATED,
+      code: StatusCodes.OK,
       timestamp: new Date(),
       message: "Burç yorum",
     });
@@ -143,13 +143,59 @@ exports.updateZodiacById = async (req, res) => {
 exports.getZodiacByTitle = async (req, res) => {
   try {
     const json = await zodiacService.zodiac.getZodiacByTitle(req);
+    res.status(StatusCodes.OK).json({
+      ...baseResponse,
+      data: json,
+      success: true,
+      code: StatusCodes.OK,
+      timestamp: new Date(),
+      message: "Burç yorum",
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      ...baseResponse,
+      success: false,
+      error: true,
+      timestamp: new Date(),
+      message: error.message,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+exports.postRelationship = async (req, res) => {
+  try {
+    const json = await zodiacService.zodiac.postRelationship(req);
     res.status(StatusCodes.CREATED).json({
       ...baseResponse,
       data: json,
       success: true,
       code: StatusCodes.CREATED,
       timestamp: new Date(),
-      message: "Burç yorum",
+      message: "Burç uyum eklendi",
+    });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      ...baseResponse,
+      success: false,
+      error: true,
+      timestamp: new Date(),
+      message: error.message,
+      code: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
+  }
+};
+
+exports.getRelationship = async (req, res) => {
+  try {
+    const json = await zodiacService.zodiac.getRelationship(req);
+    res.status(StatusCodes.OK).json({
+      ...baseResponse,
+      data: json,
+      success: true,
+      code: StatusCodes.OK,
+      timestamp: new Date(),
+      message: "Burç uyum bulundu",
     });
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({

@@ -1,5 +1,6 @@
 const Zodiac = require("../models/zodiac.model");
-const zodiacDal = require("../dal/index");
+const Relationship = require("../models/relationship.model");
+const indexDal = require("../dal/index");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -12,7 +13,7 @@ exports.createZodiac = async (req) => {
       weekly,
       monthly,
     });
-    const json = await zodiacDal.zodiac.create(zodiac);
+    const json = await indexDal.zodiac.create(zodiac);
     return json;
   } catch (error) {
     throw new Error(error);
@@ -22,13 +23,8 @@ exports.createZodiac = async (req) => {
 exports.getDaily = async (req) => {
   const { title } = req.params;
   try {
-    const res = await axios.get(
-      `https://www.hurriyet.com.tr/mahmure/astroloji/${title}-burcu/`
-    );
-    const $ = cheerio.load(res.data);
-    return `${$(
-      `body > div > div:nth-child(2) > div > div > div.region-type-2.col-lg-8.col-md-12 > div > div.horoscope-detail-tab > div.horoscope-detail-content > div > p`
-    ).text()}`;
+    const json = await indexDal.zodiac.find({ title: title });
+    return json;
   } catch (error) {
     throw new Error(error);
   }
@@ -67,7 +63,7 @@ exports.getMonthly = async (req) => {
 exports.getById = async (req) => {
   const { id } = req.params;
   try {
-    const json = await zodiacDal.zodiac.findById(id);
+    const json = await indexDal.zodiac.findById(id);
     if (!json) {
       throw new Error("Burç bulunamadı");
     } else {
@@ -81,7 +77,7 @@ exports.getById = async (req) => {
 exports.getZodiacByTitle = async (req) => {
   const { title } = req.params;
   try {
-    const json = await zodiacDal.zodiac.findOne({ title: title });
+    const json = await indexDal.zodiac.findOne({ title: title });
     if (!json) {
       throw new Error("Burç bulunamadı");
     } else {
@@ -96,7 +92,7 @@ exports.updateZodiacById = async (req) => {
   const { id } = req.params;
   const { daily, weekly, monthly } = req.body;
   try {
-    const json = await zodiacDal.zodiac.updateById(id, {
+    const json = await indexDal.zodiac.updateById(id, {
       daily,
       weekly,
       monthly,
@@ -106,6 +102,34 @@ exports.updateZodiacById = async (req) => {
     } else {
       return json;
     }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.postRelationship = async (req) => {
+  try {
+    const { title1, title2, relationship } = req.body;
+    const pair = new Relationship({
+      title1,
+      title2,
+      relationship,
+    });
+    const json = await indexDal.relationship.create(pair);
+    return json;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.getRelationship = async (req) => {
+  try {
+    const { title1, title2 } = req.query;
+    const json = await indexDal.relationship.findOne({
+      title1: title1,
+      title2: title2,
+    });
+    return json
   } catch (error) {
     throw new Error(error);
   }
