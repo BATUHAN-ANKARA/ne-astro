@@ -15,7 +15,10 @@ const ZodiacDataAccess = {
   },
   async updateById(id, body) {
     return await Zodiac.findByIdAndUpdate({ _id: id }, body, { new: true });
-  }
+  },
+  async getPeriodic(where, periode) {
+    return await Zodiac.findOne(where).select(`title ${periode}`)
+  },
 };
 
-module.exports = ZodiacDataAccess
+module.exports = ZodiacDataAccess;

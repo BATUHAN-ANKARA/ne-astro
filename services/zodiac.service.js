@@ -23,7 +23,7 @@ exports.createZodiac = async (req) => {
 exports.getDaily = async (req) => {
   const { title } = req.params;
   try {
-    const json = await indexDal.zodiac.find({ title: title });
+    const json = await indexDal.zodiac.getPeriodic({ title: title }, "daily");
     return json;
   } catch (error) {
     throw new Error(error);
@@ -33,13 +33,8 @@ exports.getDaily = async (req) => {
 exports.getWeekly = async (req) => {
   const { title } = req.params;
   try {
-    const res = await axios.get(
-      `https://www.hurriyet.com.tr/mahmure/astroloji/${title}-burcu-haftalik-yorum/`
-    );
-    const $ = cheerio.load(res.data);
-    return `${$(
-      `body > div > div:nth-child(2) > div > div > div.region-type-2.col-lg-8.col-md-12 > div > div.horoscope-detail-tab > div.horoscope-detail-content > div`
-    ).text()}`;
+    const json = await indexDal.zodiac.getPeriodic({ title: title }, "weekly");
+    return json;
   } catch (error) {
     throw new Error(error);
   }
@@ -48,13 +43,8 @@ exports.getWeekly = async (req) => {
 exports.getMonthly = async (req) => {
   const { title } = req.params;
   try {
-    const res = await axios.get(
-      `https://www.hurriyet.com.tr/mahmure/astroloji/${title}-burcu-aylik-yorum/`
-    );
-    const $ = cheerio.load(res.data);
-    return `${$(
-      `body > div > div:nth-child(2) > div > div > div.region-type-2.col-lg-8.col-md-12 > div > div.horoscope-detail-tab > div.horoscope-detail-content > div`
-    ).text()}`;
+    const json = await indexDal.zodiac.getPeriodic({ title: title }, "monthly");
+    return json;
   } catch (error) {
     throw new Error(error);
   }
@@ -129,7 +119,7 @@ exports.getRelationship = async (req) => {
       title1: title1,
       title2: title2,
     });
-    return json
+    return json;
   } catch (error) {
     throw new Error(error);
   }
