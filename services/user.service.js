@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const userDal = require("../dal/index");
 const utils = require("../utils/index");
 const fileService = require("./file.service");
+const userDto = require("../dto/user.dto");
 
 exports.createUser = async (req) => {
   try {
@@ -26,7 +27,23 @@ exports.createUser = async (req) => {
       age,
     });
     const json = await userDal.user.create(user);
-    return json;
+    const token = utils.helper.createToken(
+      json._id,
+      json.name + "" + json.surname,
+      json.email
+    );
+    return {
+      ...userDto,
+      token: token,
+      email: json.email,
+      name:json.name,
+      surname: json.surname,
+      birthDate: json.birthDate,
+      age: json.age,
+      zodiacSign: json.zodiacSign,
+      password: json.password,
+      id: json._id
+    };
   } catch (error) {
     throw new Error(error);
   }

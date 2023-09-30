@@ -59,7 +59,7 @@ const verifyToken = (token) => {
     isVerify.decodeToken = decodeToken;
   } catch (error) {
     isVerify.decodeToken = null;
-    console.log("token verify hatası:", error);
+    console.log("token verify hatası:", error.message);
   }
   return isVerify;
 };

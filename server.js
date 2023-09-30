@@ -17,7 +17,7 @@ app.use("/uploads", express.static("uploads"));
 app.use(express.json());
 
 app.use(middlewares.loggerMiddleware);
-// app.use(middlewares.authMiddleware);
+app.use(middlewares.authMiddleware);
 
 app.use(`${process.env.APP_PREFIX}${consts.router.USER}`, router.userRouter);
 app.use(
